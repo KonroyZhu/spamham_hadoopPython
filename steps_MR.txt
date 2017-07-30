@@ -1,0 +1,15 @@
+1. Command ro run MR cycle training spam emails
+hadoop jar /usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop-streaming-2.0.0-mr1-cdh4.7.0.jar -D mapred.job.name="Probability calculation Job via Streaming" -files /home/cloudera/Desktop/spamham/Datasets/mini_project/mapper_tf.py , /home/cloudera/Desktop/spamham/Datasets/mini_project/reduce_tf_dir.py -input /tmp/mini_project/trainspam.txt -output /tmp/mini_project_output/ -mapper 'python mapper_tf.py' -reducer 'python reduce_tf_dir.py'
+
+ 
+2.Command to run MR cycle on training ham emails.
+hadoop jar /usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop-streaming-2.0.0-mr1-cdh4.7.0.jar -D mapred.job.name="Probability calculation Job via Streaming" -files /tmp/mini_project/mapper_tf.py,/tmp/mini_project/reduce_tf_dir.py -input /tmp/mini_project/Trainham.txt -output /tmp/mini_project/ -mapper 'python mapper_tf.py' -reducer 'python reduce_tf_dir.py'
+
+3. Command to check whehter a given text is spam or ham
+hadoop jar /usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop-streaming-2.0.0-mr1-cdh4.7.0.jar -D mapred.job.name="Test Job via Streaming" -files /tmp/mini_project/mapper_checkemail.py,/tmp/mini_project/mapper_checkemail.py -input /tmp/mini_project/TestEmail.txt -output /tmp/mini_project/ -mapper 'python mapper_checkemail.py' -reducer 'python reduce_checkemail.py'
+
+/usr/local/hadoop$ bin/hadoop jar contrib/streaming/hadoop-*streaming*.jar -D mapred.reduce.tasks=16 ...
+$HADOOP_HOME/bin/hadoop  jar $HADOOP_HOME/hadoop-streaming.jar \
+-file /home/cloudera/Desktop/spamham/Datasets/mini_project/mapper_tf.py    -mapper /home/cloudera/Desktop/spamham/Datasets/mini_project/mapper_tf.py \
+-file /home/cloudera/Desktop/spamham/Datasets/mini_project/reduce_tf_dir.py   -reducer /home/cloudera/Desktop/spamham/Datasets/mini_project/reduce_tf_dir.py \
+-input /tmp/mini_project/trainspam.txt -output /tmp/mini_project_output
